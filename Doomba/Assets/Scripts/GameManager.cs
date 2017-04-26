@@ -46,9 +46,4 @@ public class GameManager : MonoBehaviour
 			}
 		}
 	}
-
-	public void ResetLevel()
-	{
-		Application.LoadLevel (Application.loadedLevel);
-	}
 }
