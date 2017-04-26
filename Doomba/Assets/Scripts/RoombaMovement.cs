@@ -8,12 +8,16 @@ public class RoombaMovement : MonoBehaviour
     [SerializeField] string roombaMovement = "RoombaMovement_P1";
     [SerializeField] string roombaRotation = "RoombaRotation_P1";
 
-    private Rigidbody2D roombaRigidBody;
+	private CharacterController characterController;
+	private GameObject gameManager;
+	private GameManager gameManagerScript;
 
 	// Use this for initialization
 	void Start ()
     {
-        roombaRigidBody = GetComponent<Rigidbody2D>();
+		characterController = GetComponent<CharacterController> ();
+		gameManager = GameObject.Find ("Game Manager");
+		gameManagerScript = gameManager.GetComponent<GameManager> ();
 	}
 	
 	// Update is called once per frame
@@ -31,5 +35,23 @@ public class RoombaMovement : MonoBehaviour
     {
         float movementVertical = Input.GetAxis(roombaMovement);
         float movementRotation = Input.GetAxis(roombaRotation);
+		Vector3 forward = transform.TransformDirection (Vector3.up);
+
+		if (movementVertical > 0.1 && gameManagerScript.balloonList.Count > 1) 
+		{
+			characterController.Move (forward * movementSpeed * Time.deltaTime);
+		} 
+		else if (movementVertical < -0.1 && gameManagerScript.balloonList.Count > 1) 
+		{
+			characterController.Move (forward * -movementSpeed * Time.deltaTime);
+		} 
+		else if (movementRotation > 0.1 && gameManagerScript.balloonList.Count > 1) 
+		{
+			transform.Rotate (Vector3.forward * -rotationSpeed * Time.deltaTime);
+		} 
+		else if (movementRotation < -0.1 && gameManagerScript.balloonList.Count > 1) 
+		{
+			transform.Rotate (Vector3.forward * rotationSpeed * Time.deltaTime);
+		}
     }
 }
