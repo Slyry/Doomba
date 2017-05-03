@@ -4,6 +4,8 @@ using System.Collections;
 public class Balloon : MonoBehaviour 
 {
 	[SerializeField] GameManager gameManager;
+	[SerializeField] GameObject popParticle;
+	[SerializeField] AudioSource audioSource;
 
 	private bool isPopped = false;
 
@@ -38,9 +40,16 @@ public class Balloon : MonoBehaviour
 
 	void PopBalloon()
 	{
-		if (isPopped == true) 
+		if (isPopped == true && GetComponent<SpriteRenderer>().enabled == true) 
 		{
-			Destroy (gameObject);
+			Instantiate (popParticle, transform.position, transform.rotation);
+			audioSource.Play ();
+			GetComponent<SpriteRenderer> ().enabled = false;
+			GetComponent<PolygonCollider2D> ().enabled = false;
+			if (!audioSource.isPlaying) 
+			{
+				Destroy (gameObject);
+			}
 		}
 	}
 }

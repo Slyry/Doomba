@@ -3,19 +3,19 @@ using System.Collections;
 
 public class RoombaMovement : MonoBehaviour
 {
-    [SerializeField] float movementSpeed = 10;
-    [SerializeField] float rotationSpeed = 10;
+    [SerializeField] float movementSpeed = 10000;
+    [SerializeField] float rotationSpeed = 10000;
     [SerializeField] string roombaMovement = "RoombaMovement_P1";
     [SerializeField] string roombaRotation = "RoombaRotation_P1";
 
-	private CharacterController characterController;
+	private Rigidbody2D roombaRigidBody;
 	private GameObject gameManager;
 	private GameManager gameManagerScript;
 
 	// Use this for initialization
 	void Start ()
     {
-		characterController = GetComponent<CharacterController> ();
+		roombaRigidBody = GetComponent<Rigidbody2D> ();
 		gameManager = GameObject.Find ("Game Manager");
 		gameManagerScript = gameManager.GetComponent<GameManager> ();
 	}
@@ -39,19 +39,19 @@ public class RoombaMovement : MonoBehaviour
 
 		if (movementVertical > 0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
-			characterController.Move (forward * movementSpeed * Time.deltaTime);
+			roombaRigidBody.AddForce (forward * movementSpeed * Time.deltaTime);
 		} 
 		else if (movementVertical < -0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
-			characterController.Move (forward * -movementSpeed * Time.deltaTime);
+			roombaRigidBody.AddForce (forward * -movementSpeed * Time.deltaTime);
 		} 
 		else if (movementRotation > 0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
-			transform.Rotate (Vector3.forward * -rotationSpeed * Time.deltaTime);
+			roombaRigidBody.AddTorque (-rotationSpeed * Time.deltaTime);
 		} 
 		else if (movementRotation < -0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
-			transform.Rotate (Vector3.forward * rotationSpeed * Time.deltaTime);
+			roombaRigidBody.AddTorque (rotationSpeed * Time.deltaTime);
 		}
     }
 }
