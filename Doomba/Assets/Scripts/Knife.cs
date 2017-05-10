@@ -6,6 +6,10 @@ public class Knife : MonoBehaviour
 	[SerializeField] GameObject sparksParticle;
 	[SerializeField] GameObject sparkPoint;
 	[SerializeField] AudioSource audioSource;
+	/*[SerializeField] PolygonCollider2D knifeCollider;
+	[SerializeField] PolygonCollider2D macheteCollider;
+	[SerializeField] Sprite knifeSprite;
+	[SerializeField] Sprite macheteSprite;*/
 
 	private GameObject[] previousSparks;
 
@@ -45,4 +49,10 @@ public class Knife : MonoBehaviour
 			}
 		}
 	}
+
+	/*public IEnumerator MachetePowerup()
+	{
+		GameManager gameManagerScript = GameObject.Find ("Game Manager").GetComponent<GameManager> ();
+
+	}*/
 }

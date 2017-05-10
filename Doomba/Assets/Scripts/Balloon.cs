@@ -6,8 +6,12 @@ public class Balloon : MonoBehaviour
 	[SerializeField] GameManager gameManager;
 	[SerializeField] GameObject popParticle;
 	[SerializeField] AudioSource audioSource;
+	[SerializeField] AudioSource powerupAudioSource;
+	[SerializeField] Sprite redBalloon;
+	[SerializeField] Sprite metalBalloon;
 
 	private bool isPopped = false;
+	private bool isPoppable = true;
 
 	// Use this for initialization
 	void Start () 
@@ -21,9 +25,9 @@ public class Balloon : MonoBehaviour
 		PopBalloon ();
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
+	void OnTriggerStay2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "Knife") 
+		if (other.gameObject.tag == "Knife" && isPoppable) 
 		{
 			if (this.gameObject.name == "Balloon_BlackRoomba") 
 			{
@@ -40,7 +44,7 @@ public class Balloon : MonoBehaviour
 
 	void PopBalloon()
 	{
-		if (isPopped == true && GetComponent<SpriteRenderer>().enabled == true) 
+		if (isPopped == true && GetComponent<SpriteRenderer>().enabled == true && isPoppable) 
 		{
 			Instantiate (popParticle, transform.position, transform.rotation);
 			audioSource.Play ();
@@ -51,5 +55,17 @@ public class Balloon : MonoBehaviour
 				Destroy (gameObject);
 			}
 		}
+	}
+
+	public IEnumerator balloonPowerup()
+	{
+		isPoppable = false;
+		GetComponent<SpriteRenderer> ().sprite = metalBalloon;
+		powerupAudioSource.Play ();
+
+		yield return new WaitForSeconds (gameManager.powerupTime);
+
+		isPoppable = true;
+		GetComponent<SpriteRenderer> ().sprite = redBalloon;
 	}
 }

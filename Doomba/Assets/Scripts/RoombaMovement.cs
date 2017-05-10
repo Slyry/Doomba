@@ -11,6 +11,7 @@ public class RoombaMovement : MonoBehaviour
 	private Rigidbody2D roombaRigidBody;
 	private GameObject gameManager;
 	private GameManager gameManagerScript;
+	public bool isMoving = false;
 
 	// Use this for initialization
 	void Start ()
@@ -40,18 +41,26 @@ public class RoombaMovement : MonoBehaviour
 		if (movementVertical > 0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
 			roombaRigidBody.AddForce (forward * movementSpeed * Time.deltaTime);
+			isMoving = true;
 		} 
 		else if (movementVertical < -0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
 			roombaRigidBody.AddForce (forward * -movementSpeed * Time.deltaTime);
+			isMoving = true;
 		} 
 		else if (movementRotation > 0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
 			roombaRigidBody.AddTorque (-rotationSpeed * Time.deltaTime);
+			isMoving = true;
 		} 
 		else if (movementRotation < -0.1 && gameManagerScript.balloonList.Count > 1) 
 		{
 			roombaRigidBody.AddTorque (rotationSpeed * Time.deltaTime);
+			isMoving = true;
+		} 
+		else 
+		{
+			isMoving = false;
 		}
     }
 }
